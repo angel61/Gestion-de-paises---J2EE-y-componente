@@ -1,9 +1,6 @@
 package pantalla;
 
-import java.io.Serializable;
-
-@SuppressWarnings("serial")
-public class Persona implements Serializable {
+public class Persona {
 	private String nombre;
 	private int edad;
 	private int codvivienda; 

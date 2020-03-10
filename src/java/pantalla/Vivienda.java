@@ -1,9 +1,8 @@
 package pantalla;
 
-import java.io.Serializable;
 
-@SuppressWarnings("serial")
-public class Vivienda implements Serializable {
+
+public class Vivienda {
 	private int codigo;
 	private String nombremunicipio;
 	private String direccion;
