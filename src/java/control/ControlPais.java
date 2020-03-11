@@ -16,13 +16,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import paises.componente.ra6.DAOFactory;
 
+/**
+ *
+ * @author angel
+ */
 public class ControlPais extends HttpServlet {
+
     public DAOFactory bd = null;
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       int num=(int) getServletConfig().getServletContext().getAttribute("tipo");
+        int num = (int) getServletConfig().getServletContext().getAttribute("tipo");
         bd = DAOFactory.getDAOFactory(num);
-        
+
         PaisDAO paisDAO = bd.getPaisDAO();
         String op = request.getParameter("accion");
 

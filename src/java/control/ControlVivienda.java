@@ -17,14 +17,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import paises.componente.ra6.DAOFactory;
 
+/**
+ *
+ * @author angel
+ */
 public class ControlVivienda extends HttpServlet {
 
     public DAOFactory bd = null;
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       int num=(int) getServletConfig().getServletContext().getAttribute("tipo");
+        int num = (int) getServletConfig().getServletContext().getAttribute("tipo");
         bd = DAOFactory.getDAOFactory(num);
-        
+
         //bd=(DAOFactory) request.getAttribute("database");
         MunicipioDAO municipioDAO = bd.getMunicipioDAO();
         ViviendaDAO viviDAO = bd.getViviendaDAO();
@@ -110,8 +114,8 @@ public class ControlVivienda extends HttpServlet {
         if (op.equals("modificacion")) {
             pantalla.Vivienda v = (pantalla.Vivienda) request.getAttribute("vivienda");
             Vivienda vivi;
-                vivi = new Vivienda(v.getCodigo(),v.getNombremunicipio(),v.getDireccion(), v.getMetroscuadrados(),v.getAnyo(),v.getImpuesto(),v.getNumeropersonas());
-            int modif = viviDAO.ModificarVivienda(v.getCodigo(),vivi);
+            vivi = new Vivienda(v.getCodigo(), v.getNombremunicipio(), v.getDireccion(), v.getMetroscuadrados(), v.getAnyo(), v.getImpuesto(), v.getNumeropersonas());
+            int modif = viviDAO.ModificarVivienda(v.getCodigo(), vivi);
             String mensaje = "";
             if (modif == 0) {
                 mensaje = "Vivienda " + v.getCodigo() + " modificada";
@@ -131,9 +135,8 @@ public class ControlVivienda extends HttpServlet {
 
         }
 
-
         if (op.equals("actualizar")) {
-            
+
             viviDAO.ActualizarVivienda();
             request.setAttribute("boton", "");
             request.setAttribute("titulo", "ACTUALIZACI&Oacute;N DE VIVIENDAS");
@@ -153,13 +156,13 @@ public class ControlVivienda extends HttpServlet {
 
         if (op.equals("resConsulta")) {
             pantalla.Municipio municipio = (pantalla.Municipio) request.getAttribute("municipio");
-                ArrayList vi = viviDAO.ViviendasDeunMunicipio(municipio.getNombre());
-                request.setAttribute("viviendas", vi);
-                request.setAttribute("municipio", municipio.getNombre().toUpperCase());
-                RequestDispatcher rd
-                        = request.getRequestDispatcher("/vivienda/consulta.jsp");
-                rd.forward(request, response);
-            
+            ArrayList vi = viviDAO.ViviendasDeunMunicipio(municipio.getNombre());
+            request.setAttribute("viviendas", vi);
+            request.setAttribute("municipio", municipio.getNombre().toUpperCase());
+            RequestDispatcher rd
+                    = request.getRequestDispatcher("/vivienda/consulta.jsp");
+            rd.forward(request, response);
+
         }
     }
 

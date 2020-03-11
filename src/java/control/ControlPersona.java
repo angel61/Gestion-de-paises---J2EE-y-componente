@@ -18,16 +18,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import paises.componente.ra6.DAOFactory;
 
-
-
+/**
+ *
+ * @author angel
+ */
 public class ControlPersona extends HttpServlet {
 
     public DAOFactory bd = null;
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       int num=(int) getServletConfig().getServletContext().getAttribute("tipo");
+        int num = (int) getServletConfig().getServletContext().getAttribute("tipo");
         bd = DAOFactory.getDAOFactory(num);
-        
+
         ViviendaDAO viviendaDAO = bd.getViviendaDAO();
         PersonaDAO personaDAO = bd.getPersonaDAO();
         MunicipioDAO municipioDAO = bd.getMunicipioDAO();
@@ -43,7 +45,7 @@ public class ControlPersona extends HttpServlet {
         if (op.equals("insertar")) {
             pantalla.Persona per = (pantalla.Persona) request.getAttribute("per");
 
-            Persona persona = new Persona(per.getNombre(),per.getEdad(),per.getCodvivienda());
+            Persona persona = new Persona(per.getNombre(), per.getEdad(), per.getCodvivienda());
             int insertar = personaDAO.InsertarPersona(persona);
             String mensaje = "";
             if (insertar == 0) {
@@ -112,8 +114,8 @@ public class ControlPersona extends HttpServlet {
         if (op.equals("modificacion")) {
             pantalla.Persona p = (pantalla.Persona) request.getAttribute("persona");
             Persona per;
-                per = new Persona(p.getNombre(),p.getEdad(),p.getCodvivienda());
-            int modif = personaDAO.ModificarPersona(p.getNombre(),per);
+            per = new Persona(p.getNombre(), p.getEdad(), p.getCodvivienda());
+            int modif = personaDAO.ModificarPersona(p.getNombre(), per);
             String mensaje = "";
             if (modif == 0) {
                 mensaje = "Persona " + p.getNombre() + " modificada";
@@ -141,14 +143,14 @@ public class ControlPersona extends HttpServlet {
 
         if (op.equals("resConsultaM")) {
             pantalla.Municipio municipio = (pantalla.Municipio) request.getAttribute("municipio");
-                ArrayList vi = personaDAO.PersonasDeunMunicipio(municipio.getNombre());
-                request.setAttribute("personas", vi);
-                request.setAttribute("accion", "consultaM");
-                request.setAttribute("nombre", municipio.getNombre().toUpperCase());
-                RequestDispatcher rd
-                        = request.getRequestDispatcher("/persona/consulta.jsp");
-                rd.forward(request, response);
-            
+            ArrayList vi = personaDAO.PersonasDeunMunicipio(municipio.getNombre());
+            request.setAttribute("personas", vi);
+            request.setAttribute("accion", "consultaM");
+            request.setAttribute("nombre", municipio.getNombre().toUpperCase());
+            RequestDispatcher rd
+                    = request.getRequestDispatcher("/persona/consulta.jsp");
+            rd.forward(request, response);
+
         }
         if (op.equals("consultaV")) {
             ArrayList lista = viviendaDAO.TodasViviendas();
@@ -159,14 +161,14 @@ public class ControlPersona extends HttpServlet {
 
         if (op.equals("resConsultaV")) {
             pantalla.Vivienda vivienda = (pantalla.Vivienda) request.getAttribute("vivienda");
-                ArrayList vi = personaDAO.TodosPersonasVivienda(vivienda.getCodigo());
-                request.setAttribute("personas", vi);
-                request.setAttribute("accion", "consultaV");
-                request.setAttribute("nombre", "LA VIVIENDA "+vivienda.getCodigo());
-                RequestDispatcher rd
-                        = request.getRequestDispatcher("/persona/consulta.jsp");
-                rd.forward(request, response);
-            
+            ArrayList vi = personaDAO.TodosPersonasVivienda(vivienda.getCodigo());
+            request.setAttribute("personas", vi);
+            request.setAttribute("accion", "consultaV");
+            request.setAttribute("nombre", "LA VIVIENDA " + vivienda.getCodigo());
+            RequestDispatcher rd
+                    = request.getRequestDispatcher("/persona/consulta.jsp");
+            rd.forward(request, response);
+
         }
     }
 
